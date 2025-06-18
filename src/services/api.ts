@@ -15,7 +15,10 @@ export interface ProdutoDto {
 export type CriarProdutoDto = Omit<ProdutoDto, 'id'>;
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.PROD ? 
+    `${import.meta.env.VITE_API_URL ||
+      'https://nexdom-backend-production.up.railway.app'}/api` : 
+    '/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -23,7 +26,6 @@ const api = axios.create({
   withCredentials: false,
   timeout: 10000 
 });
-
 api.interceptors.request.use(
   config => {
     return config;
